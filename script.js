@@ -1,225 +1,146 @@
-/* =========================================================
-CITYPULSE
-JavaScript
-========================================================= */
+document.addEventListener("DOMContentLoaded", () => {
 
-/* ================= INITIAL SETUP ================= */
+    const year = document.getElementById("year");
 
-document.addEventListener("DOMContentLoaded", function () {
+    if (year) {
+        year.textContent = new Date().getFullYear();
+    }
 
-```
-updateYear();
+    setupTheme();
 
-loadTheme();
+    setupSearch();
 
-setupKeyboardShortcut();
-
-animateCounters();
-```
+    setupKeyboardShortcut();
 
 });
 
-/* ================= YEAR ================= */
-
-function updateYear() {
-
-```
-const yearElement =
-    document.getElementById("year");
-
-if (yearElement) {
-
-    yearElement.textContent =
-        new Date().getFullYear();
-
-}
-```
-
-}
 
 /* ================= THEME ================= */
 
-function toggleTheme() {
+function setupTheme() {
 
-```
-document.body.classList.toggle("dark");
+    const themeButton =
+        document.getElementById("themeBtn");
 
-const isDark =
-    document.body.classList.contains("dark");
+    const savedTheme =
+        localStorage.getItem("citypulse-theme");
 
-localStorage.setItem(
-    "citypulse-theme",
-    isDark ? "dark" : "light"
-);
+    if (savedTheme === "dark") {
+        document.body.classList.add("dark");
 
-updateThemeIcon();
+        if (themeButton) {
+            themeButton.textContent = "☀";
+        }
+    }
 
-showToast(
-    isDark
-        ? "Dark mode enabled"
-        : "Light mode enabled",
-    "☀"
-);
-```
+    if (!themeButton) return;
 
-}
+    themeButton.addEventListener("click", () => {
 
-function loadTheme() {
+        document.body.classList.toggle("dark");
 
-```
-const savedTheme =
-    localStorage.getItem("citypulse-theme");
+        const dark =
+            document.body.classList.contains("dark");
 
-if (savedTheme === "dark") {
+        localStorage.setItem(
+            "citypulse-theme",
+            dark ? "dark" : "light"
+        );
 
-    document.body.classList.add("dark");
+        themeButton.textContent =
+            dark ? "☀" : "☾";
 
-}
-
-updateThemeIcon();
-```
-
-}
-
-function updateThemeIcon() {
-
-```
-const button =
-    document.getElementById("themeButton");
-
-if (!button) return;
-
-const isDark =
-    document.body.classList.contains("dark");
-
-button.textContent =
-    isDark ? "☀" : "☾";
-```
-
-}
-
-/* ================= SEARCH ================= */
-
-function searchCity(query) {
-
-```
-const search =
-    query.toLowerCase().trim();
-
-const cards =
-    document.querySelectorAll(
-        ".category-card"
-    );
-
-if (!search) {
-
-    cards.forEach(card => {
-
-        card.style.display = "";
+        showToast(
+            dark
+                ? "Dark mode enabled"
+                : "Light mode enabled",
+            dark ? "☀" : "☾"
+        );
 
     });
 
-    return;
-
 }
 
 
-let found = false;
+/* ================= SEARCH ================= */
 
+function setupSearch() {
 
-cards.forEach(card => {
+    const searchInput =
+        document.getElementById("searchInput");
 
-    const text =
-        card.innerText.toLowerCase();
+    if (!searchInput) return;
 
-    const keywords =
-        card.dataset.search || "";
+    searchInput.addEventListener("input", () => {
 
-    if (
-        text.includes(search) ||
-        keywords.includes(search)
-    ) {
+        const query =
+            searchInput.value
+                .toLowerCase()
+                .trim();
 
-        card.style.display = "";
+        const cards =
+            document.querySelectorAll(
+                ".feature-card"
+            );
 
-        found = true;
+        if (!query) {
 
-    } else {
+            cards.forEach(card => {
+                card.style.display = "";
+            });
 
-        card.style.display = "none";
+            return;
+        }
 
-    }
+        let found = false;
 
-});
+        cards.forEach(card => {
 
+            const searchableText =
+                (
+                    card.innerText +
+                    " " +
+                    (card.dataset.search || "")
+                ).toLowerCase();
 
-if (found) {
+            if (searchableText.includes(query)) {
 
-    document
-        .getElementById("trending")
-        .scrollIntoView({
-            behavior: "smooth"
+                card.style.display = "";
+
+                found = true;
+
+            } else {
+
+                card.style.display = "none";
+
+            }
+
         });
 
-}
-```
+        if (found) {
+
+            document
+                .getElementById("discover")
+                .scrollIntoView({
+                    behavior: "smooth",
+                    block: "start"
+                });
+
+        }
+
+    });
 
 }
 
-/* ================= SEARCH FOCUS ================= */
-
-function focusSearch() {
-
-```
-const desktop =
-    document.getElementById(
-        "desktopSearch"
-    );
-
-const mobile =
-    document.getElementById(
-        "mobileSearch"
-    );
-
-
-if (window.innerWidth <= 700) {
-
-    if (mobile) {
-
-        mobile.focus();
-
-        window.scrollTo({
-            top: 0,
-            behavior: "smooth"
-        });
-
-    }
-
-} else {
-
-    if (desktop) {
-
-        desktop.focus();
-
-    }
-
-}
-```
-
-}
 
 /* ================= KEYBOARD ================= */
 
 function setupKeyboardShortcut() {
 
-```
-document.addEventListener(
-    "keydown",
-    function (event) {
+    document.addEventListener("keydown", event => {
 
         if (
-            (event.ctrlKey ||
-                event.metaKey) &&
+            (event.ctrlKey || event.metaKey) &&
             event.key.toLowerCase() === "k"
         ) {
 
@@ -229,450 +150,253 @@ document.addEventListener(
 
         }
 
-    }
-);
-```
+    });
 
 }
 
-/* ================= SCROLL ================= */
 
-function scrollToSection(id) {
+/* ================= SEARCH FOCUS ================= */
 
-```
-const section =
-    document.getElementById(id);
+function focusSearch() {
 
-if (!section) return;
+    const input =
+        document.getElementById("searchInput");
 
-section.scrollIntoView({
-    behavior: "smooth",
-    block: "start"
-});
-```
+    if (!input) return;
+
+    input.focus();
+
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
 
 }
+
 
 /* ================= HOME ================= */
 
-function showHome() {
+function goHome(event) {
 
-```
-window.scrollTo({
-    top: 0,
-    behavior: "smooth"
-});
-```
-
-}
-
-/* ================= LOCATION ================= */
-
-function getLocation() {
-
-```
-showToast(
-    "Finding places near you...",
-    "⌖"
-);
-
-
-if (!navigator.geolocation) {
-
-    showToast(
-        "Location is not supported",
-        "!"
-    );
-
-    return;
-
-}
-
-
-navigator.geolocation.getCurrentPosition(
-
-    function () {
-
-        showToast(
-            "Nearby results updated",
-            "✓"
-        );
-
-    },
-
-    function () {
-
-        showToast(
-            "Using Hyderabad as your city",
-            "📍"
-        );
-
+    if (event) {
+        event.preventDefault();
     }
 
-);
-```
-
-}
-
-/* ================= MAP ================= */
-
-let mapScale = 1;
-
-function zoomMap(direction) {
-
-```
-const map =
-    document.getElementById(
-        "cityMap"
-    );
-
-if (!map) return;
-
-
-if (direction === "+") {
-
-    mapScale =
-        Math.min(
-            mapScale + 0.08,
-            1.25
-        );
-
-} else {
-
-    mapScale =
-        Math.max(
-            mapScale - 0.08,
-            0.9
-        );
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
 
 }
 
 
-map.style.transform =
-    `scale(${mapScale})`;
-```
+/* ================= SCROLL ================= */
+
+function scrollToId(id) {
+
+    const element =
+        document.getElementById(id);
+
+    if (!element) return;
+
+    element.scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+    });
 
 }
 
-function focusMap() {
 
-```
-scrollToSection("cityMap");
+/* ================= NEAR ME ================= */
 
-showToast(
-    "Explore the live city map",
-    "🗺"
-);
-```
-
-}
-
-function mapMessage(message) {
-
-```
-showToast(
-    message,
-    "📍"
-);
-```
-
-}
-
-/* ================= ALERTS ================= */
-
-function alertDetails(type) {
-
-```
-showToast(
-    `${type}: More information available`,
-    "ℹ"
-);
-```
-
-}
-
-/* ================= CATEGORIES ================= */
-
-function showAllCategories() {
-
-```
-const cards =
-    document.querySelectorAll(
-        ".category-card"
-    );
-
-cards.forEach(card => {
-
-    card.style.display = "";
-
-});
-
-
-scrollToSection("trending");
-
-showToast(
-    "Showing all city categories",
-    "✦"
-);
-```
-
-}
-
-/* ================= NEARBY ================= */
-
-function showNearby() {
-
-```
-showToast(
-    "More nearby places coming soon",
-    "📍"
-);
-```
-
-}
-
-/* ================= DISCOVER ================= */
-
-function discoverMore() {
-
-```
-showToast(
-    "Discovering more around Hyderabad...",
-    "✦"
-);
-
-
-setTimeout(function () {
-
-    scrollToSection("trending");
-
-}, 700);
-```
-
-}
-
-/* ================= PROFILE ================= */
-
-function openProfile() {
-
-```
-showToast(
-    "Profile feature coming soon",
-    "◯"
-);
-```
-
-}
-
-/* ================= FOOTER ================= */
-
-function showAbout() {
-
-```
-showToast(
-    "CityPulse helps you discover your city",
-    "✦"
-);
-```
-
-}
-
-function showPrivacy() {
-
-```
-showToast(
-    "Your privacy matters to CityPulse",
-    "🔒"
-);
-```
-
-}
-
-function showContact() {
-
-```
-showToast(
-    "Contact feature coming soon",
-    "✉"
-);
-```
-
-}
-
-function showFeedback() {
-
-```
-const feedback =
-    prompt(
-        "Tell us what you think about CityPulse:"
-    );
-
-if (
-    feedback &&
-    feedback.trim().length > 0
-) {
+function nearMe() {
 
     showToast(
-        "Thanks for your feedback!",
-        "♥"
+        "Finding useful places near you...",
+        "⌖"
     );
 
-}
-```
+    if (!navigator.geolocation) {
+        return;
+    }
 
-}
+    navigator.geolocation.getCurrentPosition(
 
-/* ================= TOAST ================= */
+        () => {
 
-let toastTimer;
+            showToast(
+                "Nearby results are ready",
+                "✓"
+            );
 
-function showToast(message, icon = "✓") {
+        },
 
-```
-const toast =
-    document.getElementById(
-        "toast"
-    );
+        () => {
 
-const toastMessage =
-    document.getElementById(
-        "toastMessage"
-    );
-
-const toastIcon =
-    document.getElementById(
-        "toastIcon"
-    );
-
-
-if (!toast) return;
-
-
-toastMessage.textContent =
-    message;
-
-toastIcon.textContent =
-    icon;
-
-
-toast.classList.add("show");
-
-
-clearTimeout(toastTimer);
-
-
-toastTimer =
-    setTimeout(function () {
-
-        toast.classList.remove(
-            "show"
-        );
-
-    }, 2800);
-```
-
-}
-
-/* ================= COUNTERS ================= */
-
-function animateCounters() {
-
-```
-const eventCount =
-    document.getElementById(
-        "eventCount"
-    );
-
-if (!eventCount) return;
-
-
-const target = 12;
-
-let current = 0;
-
-
-const interval =
-    setInterval(function () {
-
-        current++;
-
-        eventCount.textContent =
-            current;
-
-
-        if (current >= target) {
-
-            clearInterval(interval);
+            showToast(
+                "Showing Hyderabad city results",
+                "📍"
+            );
 
         }
 
-    }, 60);
-```
+    );
 
 }
 
-/* ================= CARD INTERACTION ================= */
 
-document.addEventListener(
-"click",
-function (event) {
+/* ================= CATEGORIES ================= */
 
-```
-    const card =
-        event.target.closest(
-            ".category-card"
-        );
+function categoryMessage(category) {
 
-
-    if (!card) return;
-
-
-    const title =
-        card.querySelector("h3");
-
-
-    if (title) {
-
-        showToast(
-            `Exploring ${title.textContent}`,
-            "→"
-        );
-
-    }
-
-}
-```
-
-);
-
-/* ================= ONLINE STATUS ================= */
-
-window.addEventListener(
-"online",
-function () {
-
-```
     showToast(
-        "You are back online",
+        `Exploring ${category}`,
+        "→"
+    );
+
+}
+
+
+function showAll() {
+
+    const cards =
+        document.querySelectorAll(
+            ".feature-card"
+        );
+
+    cards.forEach(card => {
+        card.style.display = "";
+    });
+
+    scrollToId("discover");
+
+    showToast(
+        "All city categories are visible",
+        "✦"
+    );
+
+}
+
+
+/* ================= MAP ================= */
+
+function mapNotice(message) {
+
+    showToast(
+        message,
+        "📍"
+    );
+
+}
+
+
+/* ================= ALERTS ================= */
+
+function alertInfo(type) {
+
+    showToast(
+        `${type} selected`,
+        "ℹ"
+    );
+
+}
+
+
+function showAllAlerts() {
+
+    showToast(
+        "Showing all city updates",
         "✓"
     );
 
 }
-```
 
-);
 
-window.addEventListener(
-"offline",
-function () {
+/* ================= PLACES ================= */
 
-```
+function nearbyMessage() {
+
     showToast(
-        "You are offline",
-        "!"
+        "More nearby places coming soon",
+        "⌖"
     );
 
 }
-```
 
-);
+
+/* ================= PROFILE ================= */
+
+function showProfile() {
+
+    showToast(
+        "Profile dashboard coming soon",
+        "○"
+    );
+
+}
+
+
+/* ================= FOOTER ================= */
+
+function footerMessage(section) {
+
+    const messages = {
+
+        About:
+            "CityPulse connects people with their city.",
+
+        Privacy:
+            "Your information should always stay protected.",
+
+        Contact:
+            "Contact tools are coming soon.",
+
+        Feedback:
+            "We would love to hear your feedback."
+
+    };
+
+    showToast(
+        messages[section] || "CityPulse",
+        "✦"
+    );
+
+}
+
+
+/* ================= TOAST ================= */
+
+let toastTimeout;
+
+
+function showToast(message, icon = "✓") {
+
+    const toast =
+        document.getElementById("toast");
+
+    const text =
+        document.getElementById("toastText");
+
+    const iconElement =
+        document.getElementById("toastIcon");
+
+    if (!toast || !text || !iconElement) {
+        return;
+    }
+
+    text.textContent = message;
+
+    iconElement.textContent = icon;
+
+    toast.classList.add("show");
+
+    clearTimeout(toastTimeout);
+
+    toastTimeout =
+        setTimeout(() => {
+
+            toast.classList.remove("show");
+
+        }, 2600);
+
+}
