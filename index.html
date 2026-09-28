@@ -1,857 +1,714 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <meta name="description" content="CityPulse - Discover what is happening around your city.">
+  <title>CityPulse — Your City. Your Moment.</title>
 
-    <title>CityPulse | Your City. Your Moment.</title>
+  <meta
+    name="description"
+    content="CityPulse is a smart urban discovery platform for events, places, alerts and city activity."
+  >
 
-    <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-    <!-- HEADER -->
-    <header class="site-header">
-        <div class="container header-inner">
-
-            <a class="brand" href="#" onclick="goHome(event)">
-                <div class="brand-mark">✦</div>
-
-                <div class="brand-text">
-                    <strong>City<span>Pulse</span></strong>
-                    <small>Your city. Your moment.</small>
-                </div>
-            </a>
-
-            <div class="search-box">
-                <span>⌕</span>
-                <input
-                    id="searchInput"
-                    type="search"
-                    placeholder="Search events, places, alerts..."
-                    autocomplete="off"
-                >
-                <kbd>Ctrl K</kbd>
-            </div>
-
-            <div class="header-actions">
-                <button
-                    class="theme-btn"
-                    id="themeBtn"
-                    aria-label="Toggle dark mode">
-                    ☾
-                </button>
-
-                <button
-                    class="avatar"
-                    onclick="showProfile()"
-                    aria-label="Profile">
-                    PR
-                </button>
-            </div>
-
-        </div>
-    </header>
-
-
-    <main>
-
-        <!-- HERO -->
-        <section class="hero-section">
-            <div class="container">
-
-                <div class="hero">
-
-                    <div class="hero-content">
-
-                        <div class="live-location">
-                            <span class="live-indicator"></span>
-                            LIVE IN HYDERABAD
-                        </div>
-
-                        <h1>
-                            Know your city.<br>
-                            <span>Live the moment.</span>
-                        </h1>
-
-                        <p class="hero-description">
-                            Discover local events, traffic updates,
-                            community activities, useful places and
-                            opportunities — all in one place.
-                        </p>
-
-                        <div class="hero-actions">
-
-                            <button
-                                class="btn btn-primary"
-                                onclick="scrollToId('discover')">
-                                Explore City
-                                <span>→</span>
-                            </button>
-
-                            <button
-                                class="btn btn-secondary"
-                                onclick="nearMe()">
-                                <span>⌖</span>
-                                Near Me
-                            </button>
-
-                        </div>
-
-                        <div class="hero-stats">
-
-                            <div class="stat">
-                                <strong>12</strong>
-                                <span>Events today</span>
-                            </div>
-
-                            <div class="stat-divider"></div>
-
-                            <div class="stat">
-                                <strong>24</strong>
-                                <span>City updates</span>
-                            </div>
-
-                            <div class="stat-divider"></div>
-
-                            <div class="stat">
-                                <strong>8.4K</strong>
-                                <span>People active</span>
-                            </div>
-
-                        </div>
-
-                    </div>
-
-
-                    <!-- HERO VISUAL -->
-                    <div class="hero-visual">
-
-                        <div class="visual-glow"></div>
-
-                        <div class="city-card">
-
-                            <div class="city-card-header">
-                                <div>
-                                    <span class="mini-label">CITY ACTIVITY</span>
-                                    <h3>Hyderabad</h3>
-                                </div>
-
-                                <span class="status-pill">
-                                    <i></i> Live
-                                </span>
-                            </div>
-
-
-                            <div class="mini-map">
-
-                                <div class="map-road road-a"></div>
-                                <div class="map-road road-b"></div>
-                                <div class="map-road road-c"></div>
-                                <div class="map-road road-d"></div>
-
-                                <span class="map-area area-a">
-                                    Banjara Hills
-                                </span>
-
-                                <span class="map-area area-b">
-                                    Jubilee Hills
-                                </span>
-
-                                <span class="map-area area-c">
-                                    Hitech City
-                                </span>
-
-                                <span class="map-pin pin-a">🎵</span>
-                                <span class="map-pin pin-b">🚦</span>
-                                <span class="map-pin pin-c">🍴</span>
-
-                                <div class="user-location">
-                                    <span></span>
-                                </div>
-
-                            </div>
-
-
-                            <div class="activity-row">
-
-                                <div>
-                                    <strong>City activity</strong>
-                                    <span>Updated just now</span>
-                                </div>
-
-                                <div class="activity-bars">
-                                    <i></i>
-                                    <i></i>
-                                    <i></i>
-                                    <i></i>
-                                    <i></i>
-                                    <i></i>
-                                    <i></i>
-                                </div>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </div>
-        </section>
-
-
-        <!-- DISCOVER -->
-        <section class="section" id="discover">
-
-            <div class="container">
-
-                <div class="section-heading">
-
-                    <div>
-                        <span class="section-label">
-                            EXPLORE YOUR CITY
-                        </span>
-
-                        <h2>Everything happening around you</h2>
-
-                        <p>
-                            One simple place to discover what matters
-                            in your neighbourhood.
-                        </p>
-                    </div>
-
-                    <button
-                        class="outline-button"
-                        onclick="showAll()">
-                        View all
-                        <span>→</span>
-                    </button>
-
-                </div>
-
-
-                <div class="feature-grid">
-
-                    <!-- EVENTS -->
-                    <article
-                        class="feature-card"
-                        data-search="events music concerts entertainment">
-
-                        <div class="feature-top">
-                            <div class="feature-icon purple">
-                                ♪
-                            </div>
-
-                            <span class="trend">
-                                Trending
-                            </span>
-                        </div>
-
-                        <h3>Events</h3>
-
-                        <p>
-                            Find concerts, festivals, workshops
-                            and activities happening today.
-                        </p>
-
-                        <div class="feature-bottom">
-                            <strong>12 nearby</strong>
-                            <button onclick="categoryMessage('Events')">
-                                →
-                            </button>
-                        </div>
-
-                    </article>
-
-
-                    <!-- TRAFFIC -->
-                    <article
-                        class="feature-card"
-                        data-search="traffic roads driving transport">
-
-                        <div class="feature-top">
-                            <div class="feature-icon orange">
-                                ≋
-                            </div>
-
-                            <span class="alert">
-                                4 alerts
-                            </span>
-                        </div>
-
-                        <h3>Traffic</h3>
-
-                        <p>
-                            Stay updated with road conditions,
-                            slowdowns and city alerts.
-                        </p>
-
-                        <div class="feature-bottom">
-                            <strong>Live updates</strong>
-                            <button onclick="categoryMessage('Traffic')">
-                                →
-                            </button>
-                        </div>
-
-                    </article>
-
-
-                    <!-- COMMUNITY -->
-                    <article
-                        class="feature-card"
-                        data-search="community people local activities">
-
-                        <div class="feature-top">
-                            <div class="feature-icon blue">
-                                ♧
-                            </div>
-
-                            <span class="trend">
-                                Popular
-                            </span>
-                        </div>
-
-                        <h3>Community</h3>
-
-                        <p>
-                            Connect with local activities,
-                            groups and people nearby.
-                        </p>
-
-                        <div class="feature-bottom">
-                            <strong>8 activities</strong>
-                            <button onclick="categoryMessage('Community')">
-                                →
-                            </button>
-                        </div>
-
-                    </article>
-
-
-                    <!-- JOBS -->
-                    <article
-                        class="feature-card"
-                        data-search="jobs careers work employment opportunities">
-
-                        <div class="feature-top">
-                            <div class="feature-icon green">
-                                +
-                            </div>
-
-                            <span class="new">
-                                New
-                            </span>
-                        </div>
-
-                        <h3>Opportunities</h3>
-
-                        <p>
-                            Discover local jobs, volunteering
-                            and useful opportunities.
-                        </p>
-
-                        <div class="feature-bottom">
-                            <strong>15 nearby</strong>
-                            <button onclick="categoryMessage('Opportunities')">
-                                →
-                            </button>
-                        </div>
-
-                    </article>
-
-                </div>
-
-            </div>
-
-        </section>
-
-
-        <!-- LIVE MAP -->
-        <section class="section">
-
-            <div class="container">
-
-                <div class="section-heading">
-
-                    <div>
-                        <span class="section-label">
-                            LIVE CITY VIEW
-                        </span>
-
-                        <h2>Explore Hyderabad</h2>
-
-                        <p>
-                            See what is happening across popular
-                            areas of the city.
-                        </p>
-                    </div>
-
-                    <span class="live-now">
-                        <i></i>
-                        Live now
-                    </span>
-
-                </div>
-
-
-                <div class="map-panel">
-
-                    <div class="map-background">
-
-                        <div class="map-road large road-1"></div>
-                        <div class="map-road large road-2"></div>
-                        <div class="map-road large road-3"></div>
-                        <div class="map-road large road-4"></div>
-
-                        <div class="district d1">
-                            BANJARA HILLS
-                        </div>
-
-                        <div class="district d2">
-                            JUBILEE HILLS
-                        </div>
-
-                        <div class="district d3">
-                            HITECH CITY
-                        </div>
-
-                        <div class="district d4">
-                            GACHIBOWLI
-                        </div>
-
-                        <button
-                            class="map-marker event-marker"
-                            onclick="mapNotice('Event nearby')">
-                            ♪
-                        </button>
-
-                        <button
-                            class="map-marker traffic-marker"
-                            onclick="mapNotice('Traffic alert')">
-                            !
-                        </button>
-
-                        <button
-                            class="map-marker food-marker"
-                            onclick="mapNotice('Popular place nearby')">
-                            ●
-                        </button>
-
-                        <div class="current-location">
-                            <div class="pulse"></div>
-                            <span>You are here</span>
-                        </div>
-
-                    </div>
-
-
-                    <div class="map-side">
-
-                        <div class="map-side-title">
-                            <span>City activity</span>
-                            <strong>Today</strong>
-                        </div>
-
-                        <div class="map-item">
-                            <span class="map-item-icon purple-bg">
-                                ♪
-                            </span>
-
-                            <div>
-                                <strong>12 Events</strong>
-                                <small>Across the city</small>
-                            </div>
-
-                            <b>→</b>
-                        </div>
-
-                        <div class="map-item">
-                            <span class="map-item-icon orange-bg">
-                                !
-                            </span>
-
-                            <div>
-                                <strong>4 Alerts</strong>
-                                <small>Need attention</small>
-                            </div>
-
-                            <b>→</b>
-                        </div>
-
-                        <div class="map-item">
-                            <span class="map-item-icon green-bg">
-                                ●
-                            </span>
-
-                            <div>
-                                <strong>28 Places</strong>
-                                <small>Popular nearby</small>
-                            </div>
-
-                            <b>→</b>
-                        </div>
-
-                        <button
-                            class="map-button"
-                            onclick="mapNotice('Full map view coming soon')">
-                            Open full map
-                            <span>→</span>
-                        </button>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-        </section>
-
-
-        <!-- ALERTS -->
-        <section class="section">
-
-            <div class="container">
-
-                <div class="section-heading">
-
-                    <div>
-                        <span class="section-label">
-                            STAY INFORMED
-                        </span>
-
-                        <h2>Latest city updates</h2>
-
-                        <p>
-                            Important information from around the city.
-                        </p>
-                    </div>
-
-                    <button
-                        class="outline-button"
-                        onclick="showAllAlerts()">
-                        All updates
-                        <span>→</span>
-                    </button>
-
-                </div>
-
-
-                <div class="alerts">
-
-                    <article class="alert-row">
-
-                        <div class="alert-symbol red-symbol">
-                            !
-                        </div>
-
-                        <div class="alert-main">
-                            <div class="alert-heading">
-                                <h3>Traffic slowdown</h3>
-                                <span>8 min ago</span>
-                            </div>
-
-                            <p>
-                                Heavy traffic reported near
-                                Jubilee Hills Check Post.
-                            </p>
-                        </div>
-
-                        <button onclick="alertInfo('Traffic slowdown')">
-                            →
-                        </button>
-
-                    </article>
-
-
-                    <article class="alert-row">
-
-                        <div class="alert-symbol yellow-symbol">
-                            !
-                        </div>
-
-                        <div class="alert-main">
-                            <div class="alert-heading">
-                                <h3>Road maintenance</h3>
-                                <span>32 min ago</span>
-                            </div>
-
-                            <p>
-                                Temporary road work reported
-                                near Hitech City.
-                            </p>
-                        </div>
-
-                        <button onclick="alertInfo('Road maintenance')">
-                            →
-                        </button>
-
-                    </article>
-
-
-                    <article class="alert-row">
-
-                        <div class="alert-symbol blue-symbol">
-                            i
-                        </div>
-
-                        <div class="alert-main">
-                            <div class="alert-heading">
-                                <h3>Community update</h3>
-                                <span>1 hr ago</span>
-                            </div>
-
-                            <p>
-                                Weekend community activity announced
-                                at a nearby public park.
-                            </p>
-                        </div>
-
-                        <button onclick="alertInfo('Community update')">
-                            →
-                        </button>
-
-                    </article>
-
-                </div>
-
-            </div>
-
-        </section>
-
-
-        <!-- NEARBY -->
-        <section class="section">
-
-            <div class="container">
-
-                <div class="section-heading">
-
-                    <div>
-                        <span class="section-label">
-                            NEAR YOU
-                        </span>
-
-                        <h2>Popular places</h2>
-
-                        <p>
-                            Useful places worth discovering nearby.
-                        </p>
-                    </div>
-
-                    <button
-                        class="outline-button"
-                        onclick="nearbyMessage()">
-                        Explore places
-                        <span>→</span>
-                    </button>
-
-                </div>
-
-
-                <div class="places-grid">
-
-                    <article class="place-card">
-
-                        <div class="place-visual coffee">
-                            ☕
-                            <span>CAFE</span>
-                        </div>
-
-                        <div class="place-body">
-
-                            <h3>Roastery Coffee House</h3>
-
-                            <p>Jubilee Hills</p>
-
-                            <div class="place-meta">
-                                <span>★ 4.6</span>
-                                <span>0.8 km</span>
-                            </div>
-
-                        </div>
-
-                    </article>
-
-
-                    <article class="place-card">
-
-                        <div class="place-visual restaurant">
-                            ◈
-                            <span>FOOD</span>
-                        </div>
-
-                        <div class="place-body">
-
-                            <h3>Local Street Kitchen</h3>
-
-                            <p>Banjara Hills</p>
-
-                            <div class="place-meta">
-                                <span>★ 4.5</span>
-                                <span>1.2 km</span>
-                            </div>
-
-                        </div>
-
-                    </article>
-
-
-                    <article class="place-card">
-
-                        <div class="place-visual park">
-                            ✦
-                            <span>PARK</span>
-                        </div>
-
-                        <div class="place-body">
-
-                            <h3>KBR National Park</h3>
-
-                            <p>Road No. 92</p>
-
-                            <div class="place-meta">
-                                <span>★ 4.7</span>
-                                <span>2.1 km</span>
-                            </div>
-
-                        </div>
-
-                    </article>
-
-                </div>
-
-            </div>
-
-        </section>
-
-
-        <!-- FINAL CTA -->
-        <section class="section final-section">
-
-            <div class="container">
-
-                <div class="final-card">
-
-                    <div>
-                        <span class="section-label light-label">
-                            DISCOVER MORE
-                        </span>
-
-                        <h2>
-                            Your city is always<br>
-                            moving.
-                        </h2>
-
-                        <p>
-                            CityPulse brings the important parts
-                            of city life together in one simple experience.
-                        </p>
-
-                        <button
-                            class="btn light-btn"
-                            onclick="scrollToId('discover')">
-                            Start exploring
-                            <span>→</span>
-                        </button>
-                    </div>
-
-
-                    <div class="final-art">
-
-                        <div class="orbit orbit-one"></div>
-                        <div class="orbit orbit-two"></div>
-
-                        <div class="final-logo">
-                            ✦
-                        </div>
-
-                        <span class="float-icon icon-one">♪</span>
-                        <span class="float-icon icon-two">!</span>
-                        <span class="float-icon icon-three">●</span>
-                        <span class="float-icon icon-four">+</span>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-        </section>
-
-    </main>
-
-
-    <!-- FOOTER -->
-    <footer class="footer">
-
-        <div class="container footer-inner">
-
-            <div class="footer-brand">
-
-                <div class="brand-mark small-mark">✦</div>
-
-                <div>
-                    <strong>City<span>Pulse</span></strong>
-                    <small>Your city. Your moment.</small>
-                </div>
-
-            </div>
-
-            <div class="footer-links">
-                <button onclick="footerMessage('About')">About</button>
-                <button onclick="footerMessage('Privacy')">Privacy</button>
-                <button onclick="footerMessage('Contact')">Contact</button>
-                <button onclick="footerMessage('Feedback')">Feedback</button>
-            </div>
-
-            <span class="copyright">
-                © <span id="year"></span> CityPulse
-            </span>
-
-        </div>
-
-    </footer>
-
-
-    <!-- MOBILE NAV -->
-    <nav class="mobile-nav">
-
-        <button onclick="goHome()">
-            <span>⌂</span>
-            Home
-        </button>
-
-        <button onclick="scrollToId('discover')">
-            <span>✦</span>
-            Discover
-        </button>
-
-        <button onclick="focusSearch()">
-            <span>⌕</span>
-            Search
-        </button>
-
-        <button onclick="showProfile()">
-            <span>○</span>
-            Profile
-        </button>
-
-    </nav>
-
-
-    <!-- TOAST -->
-    <div class="toast" id="toast">
-        <span id="toastIcon">✓</span>
-        <span id="toastText">Done</span>
+  <!-- =========================
+       BACKGROUND
+  ========================== -->
+  <div class="background-glow glow-one"></div>
+  <div class="background-glow glow-two"></div>
+
+  <!-- =========================
+       NAVIGATION
+  ========================== -->
+  <header class="topbar">
+
+    <div class="brand">
+      <div class="brand-mark">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+
+      <div>
+        <div class="brand-name">CityPulse</div>
+        <div class="brand-tagline">Your city. Your moment.</div>
+      </div>
     </div>
 
+    <nav class="desktop-nav">
+      <a href="#home" class="active">Home</a>
+      <a href="#discover">Discover</a>
+      <a href="#events">Events</a>
+      <a href="#alerts">Alerts</a>
+    </nav>
 
-    <script src="script.js"></script>
+    <div class="nav-actions">
+
+      <button
+        class="icon-button"
+        id="themeToggle"
+        title="Toggle theme"
+        aria-label="Toggle theme"
+      >
+        ◐
+      </button>
+
+      <button class="location-button" id="locationButton">
+        <span class="location-dot"></span>
+        Hyderabad
+      </button>
+
+      <button class="profile-button">
+        PR
+      </button>
+
+    </div>
+
+  </header>
+
+
+  <!-- =========================
+       MAIN
+  ========================== -->
+  <main id="home">
+
+    <!-- =========================
+         HERO
+    ========================== -->
+    <section class="hero">
+
+      <div class="hero-content">
+
+        <div class="eyebrow">
+          <span class="live-dot"></span>
+          LIVE CITY INTELLIGENCE
+        </div>
+
+        <h1>
+          Know your city.
+          <span>Live the moment.</span>
+        </h1>
+
+        <p class="hero-description">
+          Discover what's happening around you — from events and
+          community activities to traffic updates, useful places
+          and opportunities.
+        </p>
+
+
+        <!-- SEARCH -->
+        <div class="search-box">
+
+          <span class="search-icon">⌕</span>
+
+          <input
+            id="searchInput"
+            type="text"
+            placeholder="Search events, places, alerts..."
+          >
+
+          <kbd>Ctrl K</kbd>
+
+        </div>
+
+
+        <!-- QUICK ACTIONS -->
+        <div class="hero-actions">
+
+          <button class="primary-button" onclick="scrollToSection('discover')">
+            Explore city
+            <span>→</span>
+          </button>
+
+          <button class="secondary-button" id="nearMeButton">
+            <span>⌖</span>
+            Near me
+          </button>
+
+        </div>
+
+
+        <!-- STATS -->
+        <div class="hero-stats">
+
+          <div class="stat">
+            <strong id="eventCount">12</strong>
+            <span>Events today</span>
+          </div>
+
+          <div class="stat">
+            <strong id="updateCount">24</strong>
+            <span>City updates</span>
+          </div>
+
+          <div class="stat">
+            <strong>8.4K</strong>
+            <span>People active</span>
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- CITY VISUAL -->
+      <div class="hero-visual">
+
+        <div class="orbit orbit-one"></div>
+        <div class="orbit orbit-two"></div>
+
+        <div class="city-card">
+
+          <div class="city-card-top">
+            <span>YOUR CITY</span>
+            <span class="status-pill">
+              <i></i> LIVE
+            </span>
+          </div>
+
+          <div class="city-name">
+            Hyderabad
+          </div>
+
+          <div class="city-time" id="cityTime">
+            06:42 PM
+          </div>
+
+          <div class="city-weather">
+            <span class="weather-icon">☀</span>
+            <div>
+              <strong>28°</strong>
+              <small>Clear skies</small>
+            </div>
+          </div>
+
+
+          <div class="pulse-visual">
+
+            <div class="pulse-ring ring-a"></div>
+            <div class="pulse-ring ring-b"></div>
+            <div class="pulse-ring ring-c"></div>
+
+            <div class="pulse-core">
+              <span>●</span>
+            </div>
+
+          </div>
+
+
+          <div class="city-card-bottom">
+
+            <div>
+              <small>City Pulse</small>
+              <strong>82%</strong>
+            </div>
+
+            <div class="mini-bars">
+              <i></i>
+              <i></i>
+              <i></i>
+              <i></i>
+              <i></i>
+              <i></i>
+              <i></i>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =========================
+         CITY PULSE
+    ========================== -->
+    <section class="section" id="discover">
+
+      <div class="section-heading">
+
+        <div>
+          <span class="section-label">CITY ACTIVITY</span>
+          <h2>What's happening now</h2>
+        </div>
+
+        <button class="view-all" onclick="showToast('Showing all city activity')">
+          View all →
+        </button>
+
+      </div>
+
+
+      <div class="activity-grid">
+
+        <article class="activity-card featured">
+
+          <div class="card-top">
+            <span class="category purple">TRENDING</span>
+            <span class="card-time">Now</span>
+          </div>
+
+          <div class="activity-icon">🎵</div>
+
+          <h3>Weekend music nights</h3>
+
+          <p>
+            Live music, food and community activities are gaining
+            attention across the city.
+          </p>
+
+          <div class="card-footer">
+            <span>📍 Jubilee Hills</span>
+            <button onclick="showToast('Opening music events')">Explore →</button>
+          </div>
+
+        </article>
+
+
+        <article class="activity-card">
+
+          <div class="card-top">
+            <span class="category blue">TRAFFIC</span>
+            <span class="card-time">8 min ago</span>
+          </div>
+
+          <div class="activity-icon blue-icon">🚦</div>
+
+          <h3>Road activity update</h3>
+
+          <p>
+            Traffic conditions are changing around major city
+            corridors.
+          </p>
+
+          <div class="card-footer">
+            <span>📍 Hitech City</span>
+            <button onclick="showToast('Traffic information updated')">Details →</button>
+          </div>
+
+        </article>
+
+
+        <article class="activity-card">
+
+          <div class="card-top">
+            <span class="category green">COMMUNITY</span>
+            <span class="card-time">18 min ago</span>
+          </div>
+
+          <div class="activity-icon green-icon">🌱</div>
+
+          <h3>Community clean-up</h3>
+
+          <p>
+            Local communities are organizing neighborhood
+            improvement activities.
+          </p>
+
+          <div class="card-footer">
+            <span>📍 Banjara Hills</span>
+            <button onclick="showToast('Community event selected')">Join →</button>
+          </div>
+
+        </article>
+
+      </div>
+
+    </section>
+
+
+    <!-- =========================
+         LIVE MAP
+    ========================== -->
+    <section class="section">
+
+      <div class="section-heading">
+
+        <div>
+          <span class="section-label">LIVE MAP</span>
+          <h2>City around you</h2>
+        </div>
+
+        <button class="view-all" onclick="showToast('Map refreshed')">
+          Refresh ↻
+        </button>
+
+      </div>
+
+
+      <div class="map-container">
+
+        <div class="map-grid"></div>
+
+        <div class="road road-one"></div>
+        <div class="road road-two"></div>
+        <div class="road road-three"></div>
+        <div class="road road-four"></div>
+
+        <div class="map-label label-one">Jubilee Hills</div>
+        <div class="map-label label-two">Hitech City</div>
+        <div class="map-label label-three">Banjara Hills</div>
+        <div class="map-label label-four">Madhapur</div>
+
+        <div class="map-pin pin-one">
+          <span>🎵</span>
+        </div>
+
+        <div class="map-pin pin-two">
+          <span>🍜</span>
+        </div>
+
+        <div class="map-pin pin-three">
+          <span>🎨</span>
+        </div>
+
+        <div class="map-pin pin-four">
+          <span>🚦</span>
+        </div>
+
+
+        <div class="map-center">
+
+          <div class="location-pulse"></div>
+
+          <div class="center-dot"></div>
+
+        </div>
+
+
+        <div class="map-overlay">
+
+          <div class="map-status">
+            <span></span>
+            Live city data
+          </div>
+
+          <strong>4 active areas</strong>
+
+          <small>
+            Events · Places · Traffic
+          </small>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =========================
+         EVENTS
+    ========================== -->
+    <section class="section" id="events">
+
+      <div class="section-heading">
+
+        <div>
+          <span class="section-label">DISCOVER</span>
+          <h2>Things worth doing</h2>
+        </div>
+
+        <button class="view-all" onclick="showToast('More events coming soon')">
+          All events →
+        </button>
+
+      </div>
+
+
+      <div class="event-grid">
+
+        <article class="event-card">
+
+          <div class="event-image event-image-one">
+            <span>LIVE</span>
+          </div>
+
+          <div class="event-body">
+
+            <span class="event-category">MUSIC</span>
+
+            <h3>City Sounds</h3>
+
+            <p>Live performances and local artists.</p>
+
+            <div class="event-meta">
+              <span>Today · 7:30 PM</span>
+              <span>📍 HITEC City</span>
+            </div>
+
+            <button onclick="showToast('City Sounds added to your list')">
+              View event
+            </button>
+
+          </div>
+
+        </article>
+
+
+        <article class="event-card">
+
+          <div class="event-image event-image-two">
+            <span>NEW</span>
+          </div>
+
+          <div class="event-body">
+
+            <span class="event-category">FOOD</span>
+
+            <h3>Night Food Walk</h3>
+
+            <p>Discover local food spots and hidden favorites.</p>
+
+            <div class="event-meta">
+              <span>Today · 8:00 PM</span>
+              <span>📍 Madhapur</span>
+            </div>
+
+            <button onclick="showToast('Food walk selected')">
+              View event
+            </button>
+
+          </div>
+
+        </article>
+
+
+        <article class="event-card">
+
+          <div class="event-image event-image-three">
+            <span>COMMUNITY</span>
+          </div>
+
+          <div class="event-body">
+
+            <span class="event-category">ART</span>
+
+            <h3>Open Art Evening</h3>
+
+            <p>Meet creators, artists and local communities.</p>
+
+            <div class="event-meta">
+              <span>Tomorrow · 6:00 PM</span>
+              <span>📍 Banjara Hills</span>
+            </div>
+
+            <button onclick="showToast('Art evening selected')">
+              View event
+            </button>
+
+          </div>
+
+        </article>
+
+      </div>
+
+    </section>
+
+
+    <!-- =========================
+         ALERTS
+    ========================== -->
+    <section class="section" id="alerts">
+
+      <div class="section-heading">
+
+        <div>
+          <span class="section-label">CITY SIGNALS</span>
+          <h2>Important updates</h2>
+        </div>
+
+      </div>
+
+
+      <div class="alerts-layout">
+
+        <article class="alert-card urgent">
+
+          <div class="alert-symbol">!</div>
+
+          <div>
+            <span class="alert-type">CITY ALERT</span>
+            <h3>Stay updated on traffic changes</h3>
+            <p>
+              Check current road conditions before travelling
+              through busy corridors.
+            </p>
+          </div>
+
+          <button onclick="showToast('Alert details opened')">
+            →
+          </button>
+
+        </article>
+
+
+        <article class="alert-card normal">
+
+          <div class="alert-symbol">✓</div>
+
+          <div>
+            <span class="alert-type">COMMUNITY</span>
+            <h3>Local activities are active</h3>
+            <p>
+              Several community events are happening nearby.
+            </p>
+          </div>
+
+          <button onclick="showToast('Community updates opened')">
+            →
+          </button>
+
+        </article>
+
+      </div>
+
+    </section>
+
+
+    <!-- =========================
+         QUICK DISCOVERY
+    ========================== -->
+    <section class="section">
+
+      <div class="section-heading">
+
+        <div>
+          <span class="section-label">EXPLORE</span>
+          <h2>Find your next place</h2>
+        </div>
+
+      </div>
+
+
+      <div class="category-grid">
+
+        <button onclick="showToast('Finding restaurants near you')">
+          <span>🍜</span>
+          <strong>Food</strong>
+          <small>Restaurants & cafés</small>
+        </button>
+
+        <button onclick="showToast('Finding activities near you')">
+          <span>🎨</span>
+          <strong>Activities</strong>
+          <small>Things to do</small>
+        </button>
+
+        <button onclick="showToast('Finding public services')">
+          <span>🏛️</span>
+          <strong>Services</strong>
+          <small>Useful city services</small>
+        </button>
+
+        <button onclick="showToast('Finding community events')">
+          <span>🤝</span>
+          <strong>Community</strong>
+          <small>People & groups</small>
+        </button>
+
+      </div>
+
+    </section>
+
+
+    <!-- =========================
+         FINAL CTA
+    ========================== -->
+    <section class="final-cta">
+
+      <div class="cta-glow"></div>
+
+      <span class="section-label">CITYPULSE</span>
+
+      <h2>
+        Your city is always
+        <span>moving.</span>
+      </h2>
+
+      <p>
+        Stay curious. Stay connected. Stay in the moment.
+      </p>
+
+      <button class="primary-button" onclick="scrollToSection('discover')">
+        Explore Hyderabad →
+      </button>
+
+    </section>
+
+  </main>
+
+
+  <!-- =========================
+       FOOTER
+  ========================== -->
+  <footer>
+
+    <div class="footer-brand">
+      <div class="brand-mark small">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+
+      <strong>CityPulse</strong>
+    </div>
+
+    <p>
+      Smart city discovery platform · Built for the future of urban living.
+    </p>
+
+    <span>
+      © 2026 CityPulse
+    </span>
+
+  </footer>
+
+
+  <!-- =========================
+       MOBILE NAV
+  ========================== -->
+  <nav class="mobile-nav">
+
+    <button onclick="scrollToSection('home')">
+      <span>⌂</span>
+      Home
+    </button>
+
+    <button onclick="scrollToSection('discover')">
+      <span>✦</span>
+      Discover
+    </button>
+
+    <button onclick="scrollToSection('events')">
+      <span>◉</span>
+      Events
+    </button>
+
+    <button onclick="scrollToSection('alerts')">
+      <span>!</span>
+      Alerts
+    </button>
+
+  </nav>
+
+
+  <!-- =========================
+       TOAST
+  ========================== -->
+  <div id="toast" class="toast">
+    <span>✓</span>
+    <p id="toastText">Done</p>
+  </div>
+
+
+  <script src="script.js"></script>
 
 </body>
 </html>
