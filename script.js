@@ -1,402 +1,551 @@
-document.addEventListener("DOMContentLoaded", () => {
+/* =========================================================
+   CITYPULSE 2.0
+   JavaScript
+========================================================= */
 
-    const year = document.getElementById("year");
 
-    if (year) {
-        year.textContent = new Date().getFullYear();
-    }
+/* =========================================================
+   THEME
+========================================================= */
 
-    setupTheme();
+const themeToggle = document.getElementById("themeToggle");
 
-    setupSearch();
+const savedTheme = localStorage.getItem("citypulse-theme");
 
-    setupKeyboardShortcut();
+if (savedTheme === "dark") {
+  document.body.classList.add("dark");
+}
+
+
+themeToggle.addEventListener("click", () => {
+
+  document.body.classList.toggle("dark");
+
+  const isDark =
+    document.body.classList.contains("dark");
+
+  localStorage.setItem(
+    "citypulse-theme",
+    isDark ? "dark" : "light"
+  );
+
+  showToast(
+    isDark
+      ? "Dark mode enabled"
+      : "Light mode enabled"
+  );
 
 });
 
 
-/* ================= THEME ================= */
-
-function setupTheme() {
-
-    const themeButton =
-        document.getElementById("themeBtn");
-
-    const savedTheme =
-        localStorage.getItem("citypulse-theme");
-
-    if (savedTheme === "dark") {
-        document.body.classList.add("dark");
-
-        if (themeButton) {
-            themeButton.textContent = "☀";
-        }
-    }
-
-    if (!themeButton) return;
-
-    themeButton.addEventListener("click", () => {
-
-        document.body.classList.toggle("dark");
-
-        const dark =
-            document.body.classList.contains("dark");
-
-        localStorage.setItem(
-            "citypulse-theme",
-            dark ? "dark" : "light"
-        );
-
-        themeButton.textContent =
-            dark ? "☀" : "☾";
-
-        showToast(
-            dark
-                ? "Dark mode enabled"
-                : "Light mode enabled",
-            dark ? "☀" : "☾"
-        );
-
-    });
-
-}
-
-
-/* ================= SEARCH ================= */
-
-function setupSearch() {
-
-    const searchInput =
-        document.getElementById("searchInput");
-
-    if (!searchInput) return;
-
-    searchInput.addEventListener("input", () => {
-
-        const query =
-            searchInput.value
-                .toLowerCase()
-                .trim();
-
-        const cards =
-            document.querySelectorAll(
-                ".feature-card"
-            );
-
-        if (!query) {
-
-            cards.forEach(card => {
-                card.style.display = "";
-            });
-
-            return;
-        }
-
-        let found = false;
-
-        cards.forEach(card => {
-
-            const searchableText =
-                (
-                    card.innerText +
-                    " " +
-                    (card.dataset.search || "")
-                ).toLowerCase();
-
-            if (searchableText.includes(query)) {
-
-                card.style.display = "";
-
-                found = true;
-
-            } else {
-
-                card.style.display = "none";
-
-            }
-
-        });
-
-        if (found) {
-
-            document
-                .getElementById("discover")
-                .scrollIntoView({
-                    behavior: "smooth",
-                    block: "start"
-                });
-
-        }
-
-    });
-
-}
-
-
-/* ================= KEYBOARD ================= */
-
-function setupKeyboardShortcut() {
-
-    document.addEventListener("keydown", event => {
-
-        if (
-            (event.ctrlKey || event.metaKey) &&
-            event.key.toLowerCase() === "k"
-        ) {
-
-            event.preventDefault();
-
-            focusSearch();
-
-        }
-
-    });
-
-}
-
-
-/* ================= SEARCH FOCUS ================= */
-
-function focusSearch() {
-
-    const input =
-        document.getElementById("searchInput");
-
-    if (!input) return;
-
-    input.focus();
-
-    window.scrollTo({
-        top: 0,
-        behavior: "smooth"
-    });
-
-}
-
-
-/* ================= HOME ================= */
-
-function goHome(event) {
-
-    if (event) {
-        event.preventDefault();
-    }
-
-    window.scrollTo({
-        top: 0,
-        behavior: "smooth"
-    });
-
-}
-
-
-/* ================= SCROLL ================= */
-
-function scrollToId(id) {
-
-    const element =
-        document.getElementById(id);
-
-    if (!element) return;
-
-    element.scrollIntoView({
-        behavior: "smooth",
-        block: "start"
-    });
-
-}
-
-
-/* ================= NEAR ME ================= */
-
-function nearMe() {
-
-    showToast(
-        "Finding useful places near you...",
-        "⌖"
+/* =========================================================
+   CITY CLOCK
+========================================================= */
+
+function updateClock() {
+
+  const clock =
+    document.getElementById("cityTime");
+
+  if (!clock) return;
+
+  const now = new Date();
+
+  const time =
+    now.toLocaleTimeString(
+      "en-IN",
+      {
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: true
+      }
     );
 
-    if (!navigator.geolocation) {
+  clock.textContent = time;
+
+}
+
+
+updateClock();
+
+setInterval(
+  updateClock,
+  1000
+);
+
+
+/* =========================================================
+   SEARCH
+========================================================= */
+
+const searchInput =
+  document.getElementById("searchInput");
+
+
+searchInput.addEventListener(
+  "keydown",
+  (event) => {
+
+    if (event.key === "Enter") {
+
+      const query =
+        searchInput.value.trim();
+
+      if (!query) {
+
+        showToast(
+          "Type something to search"
+        );
+
         return;
+      }
+
+      showToast(
+        `Searching for "${query}"`
+      );
+
     }
+
+  }
+);
+
+
+/* =========================================================
+   CTRL + K SEARCH
+========================================================= */
+
+document.addEventListener(
+  "keydown",
+  (event) => {
+
+    if (
+      (event.ctrlKey || event.metaKey) &&
+      event.key.toLowerCase() === "k"
+    ) {
+
+      event.preventDefault();
+
+      searchInput.focus();
+
+      searchInput.select();
+
+    }
+
+  }
+);
+
+
+/* =========================================================
+   NEAR ME
+========================================================= */
+
+const nearMeButton =
+  document.getElementById("nearMeButton");
+
+
+nearMeButton.addEventListener(
+  "click",
+  () => {
+
+    if (!navigator.geolocation) {
+
+      showToast(
+        "Location is not supported"
+      );
+
+      return;
+    }
+
+
+    showToast(
+      "Finding activity near you..."
+    );
+
 
     navigator.geolocation.getCurrentPosition(
 
-        () => {
+      () => {
 
-            showToast(
-                "Nearby results are ready",
-                "✓"
-            );
-
-        },
-
-        () => {
-
-            showToast(
-                "Showing Hyderabad city results",
-                "📍"
-            );
-
-        }
-
-    );
-
-}
-
-
-/* ================= CATEGORIES ================= */
-
-function categoryMessage(category) {
-
-    showToast(
-        `Exploring ${category}`,
-        "→"
-    );
-
-}
-
-
-function showAll() {
-
-    const cards =
-        document.querySelectorAll(
-            ".feature-card"
+        showToast(
+          "Nearby city activity found"
         );
 
-    cards.forEach(card => {
-        card.style.display = "";
-    });
+      },
 
-    scrollToId("discover");
+      () => {
+
+        showToast(
+          "Showing Hyderabad activity"
+        );
+
+      }
+
+    );
+
+  }
+);
+
+
+/* =========================================================
+   LOCATION BUTTON
+========================================================= */
+
+const locationButton =
+  document.getElementById(
+    "locationButton"
+  );
+
+
+locationButton.addEventListener(
+  "click",
+  () => {
 
     showToast(
-        "All city categories are visible",
-        "✦"
+      "Current city: Hyderabad"
+    );
+
+  }
+);
+
+
+/* =========================================================
+   SCROLL
+========================================================= */
+
+function scrollToSection(id) {
+
+  const section =
+    document.getElementById(id);
+
+  if (!section) return;
+
+  section.scrollIntoView({
+    behavior: "smooth",
+    block: "start"
+  });
+
+}
+
+
+/* =========================================================
+   TOAST
+========================================================= */
+
+let toastTimer;
+
+
+function showToast(message) {
+
+  const toast =
+    document.getElementById("toast");
+
+  const toastText =
+    document.getElementById("toastText");
+
+
+  toastText.textContent =
+    message;
+
+
+  toast.classList.add("show");
+
+
+  clearTimeout(toastTimer);
+
+
+  toastTimer =
+    setTimeout(
+      () => {
+
+        toast.classList.remove("show");
+
+      },
+      2600
     );
 
 }
 
 
-/* ================= MAP ================= */
+/* =========================================================
+   ANIMATED NUMBERS
+========================================================= */
 
-function mapNotice(message) {
+function animateNumber(
+  element,
+  target,
+  duration = 900
+) {
 
-    showToast(
-        message,
-        "📍"
-    );
+  let start = 0;
 
-}
-
-
-/* ================= ALERTS ================= */
-
-function alertInfo(type) {
-
-    showToast(
-        `${type} selected`,
-        "ℹ"
-    );
-
-}
+  const startTime =
+    performance.now();
 
 
-function showAllAlerts() {
+  function update(currentTime) {
 
-    showToast(
-        "Showing all city updates",
-        "✓"
-    );
-
-}
-
-
-/* ================= PLACES ================= */
-
-function nearbyMessage() {
-
-    showToast(
-        "More nearby places coming soon",
-        "⌖"
-    );
-
-}
+    const progress =
+      Math.min(
+        (currentTime - startTime) /
+        duration,
+        1
+      );
 
 
-/* ================= PROFILE ================= */
-
-function showProfile() {
-
-    showToast(
-        "Profile dashboard coming soon",
-        "○"
-    );
-
-}
+    const value =
+      Math.floor(
+        progress * target
+      );
 
 
-/* ================= FOOTER ================= */
-
-function footerMessage(section) {
-
-    const messages = {
-
-        About:
-            "CityPulse connects people with their city.",
-
-        Privacy:
-            "Your information should always stay protected.",
-
-        Contact:
-            "Contact tools are coming soon.",
-
-        Feedback:
-            "We would love to hear your feedback."
-
-    };
-
-    showToast(
-        messages[section] || "CityPulse",
-        "✦"
-    );
-
-}
+    element.textContent =
+      value;
 
 
-/* ================= TOAST ================= */
+    if (progress < 1) {
 
-let toastTimeout;
+      requestAnimationFrame(
+        update
+      );
 
-
-function showToast(message, icon = "✓") {
-
-    const toast =
-        document.getElementById("toast");
-
-    const text =
-        document.getElementById("toastText");
-
-    const iconElement =
-        document.getElementById("toastIcon");
-
-    if (!toast || !text || !iconElement) {
-        return;
     }
 
-    text.textContent = message;
+  }
 
-    iconElement.textContent = icon;
 
-    toast.classList.add("show");
-
-    clearTimeout(toastTimeout);
-
-    toastTimeout =
-        setTimeout(() => {
-
-            toast.classList.remove("show");
-
-        }, 2600);
+  requestAnimationFrame(
+    update
+  );
 
 }
+
+
+/* =========================================================
+   INITIAL STATS
+========================================================= */
+
+window.addEventListener(
+  "load",
+  () => {
+
+    const events =
+      document.getElementById(
+        "eventCount"
+      );
+
+    const updates =
+      document.getElementById(
+        "updateCount"
+      );
+
+
+    animateNumber(
+      events,
+      12
+    );
+
+    animateNumber(
+      updates,
+      24
+    );
+
+  }
+);
+
+
+/* =========================================================
+   NAV ACTIVE STATE
+========================================================= */
+
+const navLinks =
+  document.querySelectorAll(
+    ".desktop-nav a"
+  );
+
+
+navLinks.forEach(
+  (link) => {
+
+    link.addEventListener(
+      "click",
+      () => {
+
+        navLinks.forEach(
+          item =>
+            item.classList.remove(
+              "active"
+            )
+        );
+
+        link.classList.add(
+          "active"
+        );
+
+      }
+    );
+
+  }
+);
+
+
+/* =========================================================
+   SEARCH FILTER FEEDBACK
+========================================================= */
+
+searchInput.addEventListener(
+  "input",
+  () => {
+
+    const value =
+      searchInput.value
+        .toLowerCase()
+        .trim();
+
+
+    if (
+      value.includes("food") ||
+      value.includes("restaurant")
+    ) {
+
+      searchInput.style.borderColor =
+        "#18a66a";
+
+    }
+
+    else if (
+      value.includes("traffic") ||
+      value.includes("alert")
+    ) {
+
+      searchInput.style.borderColor =
+        "#ef4444";
+
+    }
+
+    else {
+
+      searchInput.style.borderColor =
+        "";
+
+    }
+
+  }
+);
+
+
+/* =========================================================
+   INTERSECTION ANIMATION
+========================================================= */
+
+const animatedElements =
+  document.querySelectorAll(
+    ".activity-card, .event-card, .alert-card, .category-grid button"
+  );
+
+
+const observer =
+  new IntersectionObserver(
+    (entries) => {
+
+      entries.forEach(
+        (entry) => {
+
+          if (
+            entry.isIntersecting
+          ) {
+
+            entry.target.style.opacity =
+              "1";
+
+            entry.target.style.transform =
+              "translateY(0)";
+
+            observer.unobserve(
+              entry.target
+            );
+
+          }
+
+        }
+      );
+
+    },
+    {
+      threshold: 0.12
+    }
+  );
+
+
+animatedElements.forEach(
+  (element) => {
+
+    element.style.opacity = "0";
+
+    element.style.transform =
+      "translateY(18px)";
+
+    element.style.transition =
+      "opacity .6s ease, transform .6s ease";
+
+    observer.observe(
+      element
+    );
+
+  }
+);
+
+
+/* =========================================================
+   MAP INTERACTION
+========================================================= */
+
+const mapPins =
+  document.querySelectorAll(
+    ".map-pin"
+  );
+
+
+mapPins.forEach(
+  (pin, index) => {
+
+    pin.addEventListener(
+      "click",
+      () => {
+
+        const messages = [
+
+          "Live music activity nearby",
+
+          "Popular food location",
+
+          "Art activity nearby",
+
+          "Traffic update available"
+
+        ];
+
+
+        showToast(
+          messages[index] ||
+          "City activity selected"
+        );
+
+      }
+    );
+
+  }
+);
+
+
+/* =========================================================
+   CONSOLE BRAND MESSAGE
+========================================================= */
+
+console.log(
+  "%c CityPulse ",
+  "background:#5b4df7;color:white;padding:8px;border-radius:8px;font-weight:bold"
+);
+
+console.log(
+  "Your city. Your moment."
+);
