@@ -1,0 +1,824 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+```
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
+
+<meta name="description"
+      content="CityPulse - Your city. Your moment.">
+
+<title>CityPulse — Your City. Your Moment.</title>
+
+<link rel="stylesheet" href="style.css">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet">
+```
+
+</head>
+
+<body>
+
+<!-- ================= HEADER ================= -->
+
+<header class="header">
+
+```
+<div class="header-container">
+
+    <a href="#" class="logo" onclick="showHome()">
+
+        <div class="logo-icon">
+            <span>✦</span>
+        </div>
+
+        <div>
+            <h1>City<span>Pulse</span></h1>
+            <p>Your city. Your moment.</p>
+        </div>
+
+    </a>
+
+
+    <div class="desktop-search">
+
+        <span class="search-icon">⌕</span>
+
+        <input
+            type="text"
+            id="desktopSearch"
+            placeholder="Search what's happening..."
+            onkeyup="searchCity(this.value)"
+        >
+
+        <kbd>⌘ K</kbd>
+
+    </div>
+
+
+    <div class="header-actions">
+
+        <button
+            class="icon-button"
+            onclick="toggleTheme()"
+            aria-label="Toggle theme"
+            id="themeButton">
+            ☾
+        </button>
+
+        <button
+            class="profile-button"
+            onclick="openProfile()">
+            <span>PR</span>
+        </button>
+
+    </div>
+
+</div>
+```
+
+</header>
+
+<!-- ================= MAIN ================= -->
+
+<main class="main-container">
+
+```
+<!-- ================= HERO ================= -->
+
+<section class="hero">
+
+    <div class="hero-content">
+
+        <div class="location-label">
+            <span class="live-dot"></span>
+            LIVE IN HYDERABAD
+        </div>
+
+        <h2>
+            What's happening<br>
+            <span>around you?</span>
+        </h2>
+
+        <p>
+            Discover events, traffic, communities,
+            jobs and everything happening in your city.
+        </p>
+
+
+        <div class="mobile-search">
+
+            <span>⌕</span>
+
+            <input
+                type="text"
+                id="mobileSearch"
+                placeholder="Search your city..."
+                onkeyup="searchCity(this.value)"
+            >
+
+        </div>
+
+
+        <div class="hero-buttons">
+
+            <button
+                class="primary-button"
+                onclick="scrollToSection('trending')">
+                Explore City
+                <span>→</span>
+            </button>
+
+            <button
+                class="secondary-button"
+                onclick="getLocation()">
+                <span>⌖</span>
+                Near Me
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- CITY STATS -->
+
+    <div class="hero-stats">
+
+        <div class="stat">
+            <strong id="eventCount">12</strong>
+            <span>Events today</span>
+        </div>
+
+        <div class="stat">
+            <strong>24</strong>
+            <span>Live alerts</span>
+        </div>
+
+        <div class="stat">
+            <strong>8.4K</strong>
+            <span>People active</span>
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- ================= MAP ================= -->
+
+<section class="section">
+
+    <div class="section-heading">
+
+        <div>
+            <span class="eyebrow">EXPLORE YOUR CITY</span>
+            <h2>Live city map</h2>
+        </div>
+
+        <button
+            class="text-button"
+            onclick="focusMap()">
+            Open map →
+        </button>
+
+    </div>
+
+
+    <div class="map-card" id="cityMap">
+
+        <div class="map-grid"></div>
+
+        <div class="road road-one"></div>
+        <div class="road road-two"></div>
+        <div class="road road-three"></div>
+        <div class="road road-four"></div>
+
+
+        <div class="map-area area-one">Banjara Hills</div>
+        <div class="map-area area-two">Jubilee Hills</div>
+        <div class="map-area area-three">Hitech City</div>
+        <div class="map-area area-four">Gachibowli</div>
+
+
+        <button
+            class="map-marker marker-red"
+            onclick="mapMessage('Traffic alert')">
+            🚗
+        </button>
+
+        <button
+            class="map-marker marker-yellow"
+            onclick="mapMessage('Community event')">
+            🎵
+        </button>
+
+        <button
+            class="map-marker marker-green"
+            onclick="mapMessage('Popular nearby place')">
+            🍴
+        </button>
+
+        <button
+            class="map-marker marker-blue"
+            onclick="mapMessage('You are here')">
+            📍
+        </button>
+
+
+        <div class="map-location">
+
+            <div class="location-pulse"></div>
+
+            <span>Hyderabad</span>
+
+        </div>
+
+
+        <div class="map-controls">
+
+            <button onclick="zoomMap('+')">+</button>
+            <button onclick="zoomMap('-')">−</button>
+
+        </div>
+
+
+        <div class="map-legend">
+
+            <span>
+                <i class="legend-dot red"></i>
+                Traffic
+            </span>
+
+            <span>
+                <i class="legend-dot yellow"></i>
+                Events
+            </span>
+
+            <span>
+                <i class="legend-dot green"></i>
+                Places
+            </span>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- ================= TRENDING ================= -->
+
+<section class="section" id="trending">
+
+    <div class="section-heading">
+
+        <div>
+            <span class="eyebrow">RIGHT NOW</span>
+            <h2>Trending now</h2>
+        </div>
+
+        <button
+            class="text-button"
+            onclick="showAllCategories()">
+            View all →
+        </button>
+
+    </div>
+
+
+    <div class="category-grid">
+
+
+        <!-- EVENTS -->
+
+        <article
+            class="category-card event-card"
+            data-search="events music concerts entertainment">
+
+            <div class="card-top">
+
+                <div class="category-icon purple">
+                    🎵
+                </div>
+
+                <span class="trend-badge">
+                    ↑ 24%
+                </span>
+
+            </div>
+
+            <h3>Events</h3>
+
+            <p>
+                Music, festivals and activities
+                happening today.
+            </p>
+
+            <div class="card-footer">
+                <strong>12 nearby</strong>
+                <span>→</span>
+            </div>
+
+        </article>
+
+
+        <!-- TRAFFIC -->
+
+        <article
+            class="category-card"
+            data-search="traffic road transport driving">
+
+            <div class="card-top">
+
+                <div class="category-icon orange">
+                    🚦
+                </div>
+
+                <span class="alert-badge">
+                    4 alerts
+                </span>
+
+            </div>
+
+            <h3>Traffic</h3>
+
+            <p>
+                Real-time road conditions
+                and traffic alerts.
+            </p>
+
+            <div class="card-footer">
+                <strong>3.2 km affected</strong>
+                <span>→</span>
+            </div>
+
+        </article>
+
+
+        <!-- COMMUNITY -->
+
+        <article
+            class="category-card"
+            data-search="community people activities local">
+
+            <div class="card-top">
+
+                <div class="category-icon blue">
+                    🤝
+                </div>
+
+                <span class="trend-badge">
+                    Popular
+                </span>
+
+            </div>
+
+            <h3>Community</h3>
+
+            <p>
+                Connect with people and
+                local activities.
+            </p>
+
+            <div class="card-footer">
+                <strong>8 activities</strong>
+                <span>→</span>
+            </div>
+
+        </article>
+
+
+        <!-- JOBS -->
+
+        <article
+            class="category-card"
+            data-search="jobs work careers employment">
+
+            <div class="card-top">
+
+                <div class="category-icon green">
+                    💼
+                </div>
+
+                <span class="trend-badge">
+                    New
+                </span>
+
+            </div>
+
+            <h3>Jobs</h3>
+
+            <p>
+                Discover new opportunities
+                near your location.
+            </p>
+
+            <div class="card-footer">
+                <strong>15 nearby</strong>
+                <span>→</span>
+            </div>
+
+        </article>
+
+
+    </div>
+
+</section>
+
+
+
+<!-- ================= ALERTS ================= -->
+
+<section class="section">
+
+    <div class="section-heading">
+
+        <div>
+            <span class="eyebrow">STAY INFORMED</span>
+            <h2>City alerts</h2>
+        </div>
+
+        <span class="live-label">
+            <span class="live-dot"></span>
+            Live
+        </span>
+
+    </div>
+
+
+    <div class="alerts-list">
+
+
+        <div class="alert-item">
+
+            <div class="alert-icon red">
+                🚨
+            </div>
+
+            <div class="alert-content">
+
+                <div class="alert-title-row">
+
+                    <h3>Traffic slowdown</h3>
+
+                    <span>8 min ago</span>
+
+                </div>
+
+                <p>
+                    Heavy traffic reported near
+                    Jubilee Hills Check Post.
+                </p>
+
+            </div>
+
+            <button onclick="alertDetails('Traffic slowdown')">
+                →
+            </button>
+
+        </div>
+
+
+        <div class="alert-item">
+
+            <div class="alert-icon yellow">
+                ⚠️
+            </div>
+
+            <div class="alert-content">
+
+                <div class="alert-title-row">
+
+                    <h3>Road maintenance</h3>
+
+                    <span>32 min ago</span>
+
+                </div>
+
+                <p>
+                    Temporary road work near
+                    Hitech City.
+                </p>
+
+            </div>
+
+            <button onclick="alertDetails('Road maintenance')">
+                →
+            </button>
+
+        </div>
+
+
+        <div class="alert-item">
+
+            <div class="alert-icon blue">
+                ℹ️
+            </div>
+
+            <div class="alert-content">
+
+                <div class="alert-title-row">
+
+                    <h3>Community update</h3>
+
+                    <span>1 hr ago</span>
+
+                </div>
+
+                <p>
+                    Weekend community meetup
+                    announced at KBR Park.
+                </p>
+
+            </div>
+
+            <button onclick="alertDetails('Community update')">
+                →
+            </button>
+
+        </div>
+
+
+    </div>
+
+</section>
+
+
+
+<!-- ================= NEARBY ================= -->
+
+<section class="section">
+
+    <div class="section-heading">
+
+        <div>
+            <span class="eyebrow">AROUND YOU</span>
+            <h2>Nearby places</h2>
+        </div>
+
+        <button
+            class="text-button"
+            onclick="showNearby()">
+            See more →
+        </button>
+
+    </div>
+
+
+    <div class="places-grid">
+
+
+        <article class="place-card">
+
+            <div class="place-image cafe">
+                ☕
+            </div>
+
+            <div class="place-info">
+
+                <div class="place-category">
+                    CAFE
+                </div>
+
+                <h3>Roastery Coffee House</h3>
+
+                <p>📍 Jubilee Hills</p>
+
+                <div class="place-meta">
+                    <span>★ 4.6</span>
+                    <span>0.8 km</span>
+                </div>
+
+            </div>
+
+        </article>
+
+
+        <article class="place-card">
+
+            <div class="place-image food">
+                🍜
+            </div>
+
+            <div class="place-info">
+
+                <div class="place-category">
+                    RESTAURANT
+                </div>
+
+                <h3>Local Street Kitchen</h3>
+
+                <p>📍 Banjara Hills</p>
+
+                <div class="place-meta">
+                    <span>★ 4.5</span>
+                    <span>1.2 km</span>
+                </div>
+
+            </div>
+
+        </article>
+
+
+        <article class="place-card">
+
+            <div class="place-image park">
+                🌳
+            </div>
+
+            <div class="place-info">
+
+                <div class="place-category">
+                    PARK
+                </div>
+
+                <h3>KBR National Park</h3>
+
+                <p>📍 Road No. 92</p>
+
+                <div class="place-meta">
+                    <span>★ 4.7</span>
+                    <span>2.1 km</span>
+                </div>
+
+            </div>
+
+        </article>
+
+
+    </div>
+
+</section>
+
+
+
+<!-- ================= DISCOVER ================= -->
+
+<section class="discover">
+
+    <div>
+
+        <span class="eyebrow">DISCOVER MORE</span>
+
+        <h2>
+            Your city has<br>
+            more to offer.
+        </h2>
+
+        <p>
+            Find hidden places, local events,
+            communities and opportunities
+            you didn't know about.
+        </p>
+
+        <button
+            class="primary-button"
+            onclick="discoverMore()">
+            Start discovering
+            <span>→</span>
+        </button>
+
+    </div>
+
+
+    <div class="discover-art">
+
+        <div class="floating-card card-a">
+            🎵
+            <span>Live music</span>
+        </div>
+
+        <div class="floating-card card-b">
+            🍜
+            <span>Food spots</span>
+        </div>
+
+        <div class="floating-card card-c">
+            💼
+            <span>New jobs</span>
+        </div>
+
+        <div class="floating-card card-d">
+            🌳
+            <span>Local parks</span>
+        </div>
+
+        <div class="discover-circle">
+            <span>✦</span>
+        </div>
+
+    </div>
+
+</section>
+```
+
+</main>
+
+<!-- ================= FOOTER ================= -->
+
+<footer class="footer">
+
+```
+<div class="footer-container">
+
+    <div class="footer-brand">
+
+        <div class="logo small">
+
+            <div class="logo-icon">
+                <span>✦</span>
+            </div>
+
+            <div>
+                <h1>City<span>Pulse</span></h1>
+            </div>
+
+        </div>
+
+        <p>
+            Your city. Your moment.
+        </p>
+
+    </div>
+
+
+    <div class="footer-links">
+
+        <a href="#" onclick="showAbout()">About</a>
+
+        <a href="#" onclick="showPrivacy()">Privacy</a>
+
+        <a href="#" onclick="showContact()">Contact</a>
+
+        <a href="#" onclick="showFeedback()">Feedback</a>
+
+    </div>
+
+
+    <div class="footer-copy">
+
+        © <span id="year"></span> CityPulse
+
+    </div>
+
+</div>
+```
+
+</footer>
+
+<!-- ================= MOBILE NAV ================= -->
+
+<nav class="mobile-nav">
+
+```
+<button onclick="showHome()">
+    <span>⌂</span>
+    Home
+</button>
+
+<button onclick="scrollToSection('cityMap')">
+    <span>⌖</span>
+    Map
+</button>
+
+<button onclick="focusSearch()">
+    <span>⌕</span>
+    Search
+</button>
+
+<button onclick="openProfile()">
+    <span>◯</span>
+    Profile
+</button>
+```
+
+</nav>
+
+<!-- ================= TOAST ================= -->
+
+<div id="toast" class="toast">
+
+```
+<span id="toastIcon">✓</span>
+
+<span id="toastMessage">
+    Done
+</span>
+```
+
+</div>
+
+<script src="script.js"></script>
+
+</body>
+</html>
